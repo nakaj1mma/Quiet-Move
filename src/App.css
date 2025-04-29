@@ -1,0 +1,50 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  width: calc(100px * 8);
+  height: calc(100px * 8);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell img {
+  width: 80%;
+  height: 80%;
+}
+
+.black {
+  background-color: #748eac;
+}
+
+.white {
+  background-color: #d9e4e8;
+}
+
+.animated {
+  transition: all 0.2s ease;
+}
+
+.selected {
+  background-color: #7cccfad2;
+}
+
+.available {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: #4eb8f5d2;
+}
