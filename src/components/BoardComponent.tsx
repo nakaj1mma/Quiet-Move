@@ -19,6 +19,8 @@ const BoardComponent = ({ board, setBoard }: BoardProps) => {
     ) {
       selectedCell.moveFigure(cell)
       setSelectedCell(null)
+    } else if (selectedCell === cell) {
+      setSelectedCell(null)
     } else {
       setSelectedCell(cell)
     }
@@ -47,7 +49,9 @@ const BoardComponent = ({ board, setBoard }: BoardProps) => {
               cell={cell}
               key={cell.id}
               selected={
-                cell.x === selectedCell?.x && cell.y === selectedCell?.y
+                cell.x === selectedCell?.x &&
+                cell.y === selectedCell?.y &&
+                !!selectedCell?.figure
               }
               click={click}
             />

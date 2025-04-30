@@ -11,4 +11,10 @@ export class Pawn extends Figure {
     this.image = color === Colors.BLACK ? blackFigure : whiteFigure
     this.name = FigureNames.PAWN
   }
+  public canMove(target: Cell): boolean {
+    if (!super.canMove(target)) {
+      return false
+    }
+    return true
+  }
 }

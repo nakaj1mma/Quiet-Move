@@ -14,9 +14,9 @@ const CellComponent = ({ cell, selected, click }: CellProps) => {
         'animated',
         cell.color,
         selected ? 'selected' : '',
+        cell.available && cell.figure ? 'target' : '',
       ].join(' ')}
       onClick={() => click(cell)}
-      style={{ background: cell.available && cell.figure ? '#376aa59e' : '' }}
     >
       {cell.available && !cell.figure && <div className='available animated' />}
 
