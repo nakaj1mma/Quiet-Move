@@ -2,8 +2,8 @@ import { Cell } from '../Cell'
 import { Colors } from '../Colors'
 import { Figure, FigureNames } from './Figure'
 
-import blackFigure from '../../assets/images/black-knight.svg'
-import whiteFigure from '../../assets/images/white-knight.svg'
+import blackFigure from '../../assets/images/figures/black-knight.svg'
+import whiteFigure from '../../assets/images/figures/white-knight.svg'
 
 export class Knight extends Figure {
   constructor(color: Colors, cell: Cell) {
@@ -15,6 +15,9 @@ export class Knight extends Figure {
     if (!super.canMove(target)) {
       return false
     }
-    return true
+    const dx = Math.abs(this.cell.x - target.x)
+    const dy = Math.abs(this.cell.y - target.y)
+
+    return (dx === 1 && dy === 2) || (dx === 2 && dy === 1)
   }
 }

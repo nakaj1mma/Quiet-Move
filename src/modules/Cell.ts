@@ -33,6 +33,14 @@ export class Cell {
     return this.figure === null
   }
 
+  public isEnemy(target: Cell): boolean {
+    if (target.figure) {
+      return this.figure?.color !== target.figure.color
+    }
+
+    return false
+  }
+
   public isEmptyVertical(target: Cell): boolean {
     if (this.x !== target.x) {
       return false
@@ -91,6 +99,9 @@ export class Cell {
   public moveFigure(target: Cell) {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure.moveFigure(target)
+      if (target.figure) {
+        this.board.addLostFigure(target.figure)
+      }
       target.setFigure(this.figure)
       this.figure = null
       playMoveSound()

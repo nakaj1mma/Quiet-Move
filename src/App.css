@@ -1,9 +1,10 @@
-.app {
+main {
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .board {
@@ -24,6 +25,35 @@
 .cell img {
   width: 80%;
   height: 80%;
+}
+
+.player {
+  display: inline-flex;
+  gap: 7px;
+}
+
+.player .container {
+  margin-top: 3px;
+}
+
+.player .container p {
+  color: #ffff;
+  font-size: 14px;
+}
+
+.top-side {
+  margin-bottom: 10px;
+}
+
+.bottom-side {
+  margin-top: 10px;
+}
+
+.player img {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
 }
 
 .animated {
@@ -118,4 +148,44 @@
 
 .white {
   background-color: #d9e4e8 !important;
+}
+
+.info {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 43px;
+}
+
+.lost span {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+}
+
+.lost span img {
+  height: 20px;
+  width: auto;
+  margin-top: 2px;
+}
+
+.clock {
+  display: flex;
+  gap: 33px;
+  padding: 0 10px 0 10px;
+  height: 40px;
+  align-items: center;
+  background-color: #ffffff75;
+  border-radius: 7px;
+  font-size: 18px;
+}
+
+.active {
+  background-color: #ffffff;
+}
+
+.clock img {
+  width: 20px;
+  height: 20px;
 }
