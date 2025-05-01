@@ -4,12 +4,13 @@ import BoardComponent from './components/BoardComponent'
 import { Board } from './modules/Board'
 import { Player } from './modules/Player'
 import { Colors } from './modules/Colors'
+import LostFigures from './components/LostFigures'
+import Timer from './components/Timer'
+import PanelComponent from './components/PanelComponent'
 
 // Test imports for images
 import testImageOne from './assets/images/test-images/billy-image.jpg'
 import testImageTwo from './assets/images/test-images/van-darkholme.jpg'
-import LostFigures from './components/LostFigures'
-import Timer from './components/Timer'
 
 const App = () => {
   const [board, setBoard] = useState<Board>(new Board())
@@ -47,49 +48,51 @@ const App = () => {
   return (
     <main>
       <div id='wrapper'>
-        <div className='game-side'></div>
-        <div className='info top-side'>
-          <div className='player '>
-            <img src={testImageOne} alt='%USER_NAME%' />
-            <div className='container'>
-              <div className='user-name'>
-                <p>{'{%USER_NAME%}'}</p>
+        <div className='game-side'>
+          <div className='info top-side'>
+            <div className='player '>
+              <img src={testImageOne} alt='%USER_NAME%' />
+              <div className='container'>
+                <div className='user-name'>
+                  <p>{'{%USER_NAME%}'}</p>
+                </div>
+                <LostFigures figures={board.lostWhiteFigures} />
               </div>
-              <LostFigures figures={board.lostWhiteFigures} />
             </div>
+            <Timer
+              time={blackTime}
+              setTime={setBlackTime}
+              isActive={moveCount >= 2 && currentPlayer?.color === Colors.BLACK}
+              moveCount={moveCount}
+            />
           </div>
-          <Timer
-            time={blackTime}
-            setTime={setBlackTime}
-            isActive={moveCount >= 2 && currentPlayer?.color === Colors.BLACK}
-            moveCount={moveCount}
-          />
-        </div>
-        <div className='board-wrapper'>
-          <BoardComponent
-            board={board}
-            setBoard={setBoard}
-            currentPlayer={currentPlayer}
-            swapPlayer={swapPlayer}
-          />
-        </div>
-        <div className='info bottom-side'>
-          <div className='player '>
-            <img src={testImageTwo} alt='{%USER_NAME%}' />
-            <div className='container'>
-              <div className='user-name'>
-                <p>{'{%USER_NAME%}'}</p>
+          <div className='board-wrapper'>
+            <BoardComponent
+              board={board}
+              setBoard={setBoard}
+              currentPlayer={currentPlayer}
+              swapPlayer={swapPlayer}
+            />
+          </div>
+          <div className='info bottom-side'>
+            <div className='player '>
+              <img src={testImageTwo} alt='{%USER_NAME%}' />
+              <div className='container'>
+                <div className='user-name'>
+                  <p>{'{%USER_NAME%}'}</p>
+                </div>
+                <LostFigures figures={board.lostBlackFigures} />
               </div>
-              <LostFigures figures={board.lostBlackFigures} />
             </div>
+            <Timer
+              time={whiteTime}
+              setTime={setWhiteTime}
+              isActive={moveCount >= 2 && currentPlayer?.color === Colors.WHITE}
+              moveCount={moveCount}
+            />
           </div>
-          <Timer
-            time={whiteTime}
-            setTime={setWhiteTime}
-            isActive={moveCount >= 2 && currentPlayer?.color === Colors.WHITE}
-            moveCount={moveCount}
-          />
         </div>
+        <PanelComponent moveCount={moveCount} />
       </div>
     </main>
   )
