@@ -1,4 +1,5 @@
 import { Cell } from '../modules/Cell'
+import { FigureNames } from '../modules/figures/Figure'
 
 interface CellProps {
   cell: Cell
@@ -15,6 +16,10 @@ const CellComponent = ({ cell, selected, click }: CellProps) => {
         cell.color,
         selected ? 'selected' : '',
         cell.available && cell.figure ? 'target' : '',
+        cell.figure?.name === FigureNames.KING &&
+        cell.board.isKingInCheck(cell.figure.color)
+          ? 'check-bg'
+          : '',
       ].join(' ')}
       onClick={() => click(cell)}
     >

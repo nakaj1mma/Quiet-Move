@@ -1,7 +1,7 @@
 import { Cell } from './Cell'
 import { Colors } from './Colors'
 import { Bishop } from './figures/Bishop'
-import { Figure } from './figures/Figure'
+import { Figure, FigureNames } from './figures/Figure'
 import { King } from './figures/King'
 import { Knight } from './figures/Knight'
 import { Pawn } from './figures/Pawn'
@@ -50,13 +50,49 @@ export class Board {
     }
   }
 
+  public isCellUnderAttack(cell: Cell, byColor: Colors): boolean {
+    for (const row of this.cells) {
+      for (const attacker of row) {
+        if (attacker.figure && attacker.figure.color === byColor) {
+          if (attacker.figure.canMove(cell)) {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+
+  public isKingInCheck(color: Colors): boolean {
+    const kingCell = this.findKingCell(color)
+    if (!kingCell) return false
+
+    const enemyColor = color === Colors.WHITE ? Colors.BLACK : Colors.WHITE
+
+    return this.isCellUnderAttack(kingCell, enemyColor)
+  }
+
+  private findKingCell(color: Colors): Cell | null {
+    for (const row of this.cells) {
+      for (const cell of row) {
+        if (
+          cell.figure?.name === FigureNames.KING &&
+          cell.figure.color === color
+        ) {
+          return cell
+        }
+      }
+    }
+    return null
+  }
+
   public addLostFigure(figure: Figure) {
     figure.color === Colors.BLACK
       ? this.lostBlackFigures.push(figure)
       : this.lostWhiteFigures.push(figure)
   }
 
-  public getCell(x: number, y: number) {
+  public getCell(x: number, y: number): Cell {
     return this.cells[y][x]
   }
 

@@ -19,6 +19,14 @@ export class King extends Figure {
     const dy = Math.abs(target.y - this.cell.y)
 
     if (dx <= 1 && dy <= 1) {
+      const isCellUnderAttack = this.cell.board.isCellUnderAttack(
+        target,
+        this.color === Colors.WHITE ? Colors.BLACK : Colors.WHITE
+      )
+
+      if (isCellUnderAttack) {
+        return false
+      }
       return true
     }
 
