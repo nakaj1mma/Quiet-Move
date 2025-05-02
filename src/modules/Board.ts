@@ -50,6 +50,17 @@ export class Board {
     }
   }
 
+  //   🚨 В чём проблема:
+  // 1. ❗ Рекурсия без контроля:
+  // isCellUnderAttack() вызывает canMove()
+
+  // canMove() (например, у King) снова вызывает isCellUnderAttack()
+
+  // Это работает, но вызывает дополнительные вызовы, которые не всегда завершаются
+  // или имеют ненужную глубину.
+
+  // -- Need check from this place ↓
+
   public isCellUnderAttack(cell: Cell, byColor: Colors): boolean {
     for (const row of this.cells) {
       for (const attacker of row) {
@@ -85,6 +96,8 @@ export class Board {
     }
     return null
   }
+
+  // -- To this ↑
 
   public addLostFigure(figure: Figure) {
     figure.color === Colors.BLACK
