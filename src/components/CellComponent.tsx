@@ -17,7 +17,7 @@ const CellComponent = ({ cell, selected, click }: CellProps) => {
         selected ? 'selected' : '',
         cell.available && cell.figure ? 'target' : '',
         cell.figure?.name === FigureNames.KING &&
-        cell.board.isKingInCheck(cell.figure.color)
+        cell.board.kingInCheck[cell.figure.color]
           ? 'check-bg'
           : '',
       ].join(' ')}

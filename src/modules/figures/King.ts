@@ -11,23 +11,37 @@ export class King extends Figure {
     this.image = color === Colors.BLACK ? blackFigure : whiteFigure
     this.name = FigureNames.KING
   }
-  public canMove(target: Cell): boolean {
+
+  public canMove(target: Cell, ignoreCheck: boolean = false): boolean {
     if (!super.canMove(target)) {
       return false
     }
+
     const dx = Math.abs(target.x - this.cell.x)
     const dy = Math.abs(target.y - this.cell.y)
 
     if (dx <= 1 && dy <= 1) {
-      const isCellUnderAttack = this.cell.board.isCellUnderAttack(
+      if (ignoreCheck) {
+        return true
+      }
+
+      const originalCell = this.cell
+      const originalTargetFigure = target.figure
+
+      this.cell.figure = null
+      target.figure = this
+      this.cell = target
+
+      const isUnderAttack = this.cell.board.isCellUnderAttack(
         target,
         this.color === Colors.WHITE ? Colors.BLACK : Colors.WHITE
       )
 
-      if (isCellUnderAttack) {
-        return false
-      }
-      return true
+      this.cell = originalCell
+      target.figure = originalTargetFigure
+      this.cell.figure = this
+
+      return !isUnderAttack
     }
 
     return false

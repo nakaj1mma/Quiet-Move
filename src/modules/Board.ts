@@ -13,6 +13,11 @@ export class Board {
   lostBlackFigures: Figure[] = []
   lostWhiteFigures: Figure[] = []
   lastMove: { figure: Figure; from: Cell; to: Cell } | null = null
+  kingInCheck: { white: boolean; black: boolean }
+
+  constructor() {
+    this.kingInCheck = { white: false, black: false }
+  }
 
   public initCells() {
     for (let i = 0; i < 8; i++) {
@@ -26,6 +31,11 @@ export class Board {
       }
       this.cells.push(row)
     }
+  }
+
+  public updateKingInCheckState() {
+    this.kingInCheck.white = this.isKingInCheck(Colors.WHITE)
+    this.kingInCheck.black = this.isKingInCheck(Colors.BLACK)
   }
 
   public getCopyBoard(): Board {
@@ -50,22 +60,17 @@ export class Board {
     }
   }
 
-  //   🚨 В чём проблема:
-  // 1. ❗ Рекурсия без контроля:
-  // isCellUnderAttack() вызывает canMove()
-
-  // canMove() (например, у King) снова вызывает isCellUnderAttack()
-
-  // Это работает, но вызывает дополнительные вызовы, которые не всегда завершаются
-  // или имеют ненужную глубину.
-
-  // -- Need check from this place ↓
-
   public isCellUnderAttack(cell: Cell, byColor: Colors): boolean {
     for (const row of this.cells) {
       for (const attacker of row) {
         if (attacker.figure && attacker.figure.color === byColor) {
-          if (attacker.figure.canMove(cell)) {
+          if (attacker.figure.name === FigureNames.KING) {
+            const dx = Math.abs(cell.x - attacker.x)
+            const dy = Math.abs(cell.y - attacker.y)
+            if (dx <= 1 && dy <= 1) {
+              return true
+            }
+          } else if (attacker.figure.canMove(cell, true)) {
             return true
           }
         }
@@ -96,8 +101,6 @@ export class Board {
     }
     return null
   }
-
-  // -- To this ↑
 
   public addLostFigure(figure: Figure) {
     figure.color === Colors.BLACK

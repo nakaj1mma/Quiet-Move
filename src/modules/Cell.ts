@@ -104,8 +104,10 @@ export class Cell {
       }
       target.setFigure(this.figure)
       this.figure = null
-      // There are will be a check sound or move sound
+
       playMoveSound()
+
+      this.board.updateKingInCheckState()
     }
   }
 }

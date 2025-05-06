@@ -3,6 +3,7 @@ import { Board } from '../modules/Board'
 import CellComponent from './CellComponent'
 import { Cell } from '../modules/Cell'
 import { Player } from '../modules/Player'
+import { Colors } from '../modules/Colors'
 
 interface BoardProps {
   board: Board
@@ -53,26 +54,33 @@ const BoardComponent = ({
     setBoard(newBoard)
   }
 
+  const renderBoard = () => {
+    const rows =
+      currentPlayer.color === Colors.BLACK
+        ? [...board.cells].reverse()
+        : board.cells
+
+    return rows.map((row, index) => (
+      <React.Fragment key={index}>
+        {row.map((cell) => (
+          <CellComponent
+            cell={cell}
+            key={cell.id}
+            selected={
+              cell.x === selectedCell?.x &&
+              cell.y === selectedCell?.y &&
+              !!selectedCell?.figure
+            }
+            click={click}
+          />
+        ))}
+      </React.Fragment>
+    ))
+  }
+
   return (
     <>
-      <div className='board'>
-        {board.cells.map((row, index) => (
-          <React.Fragment key={index}>
-            {row.map((cell) => (
-              <CellComponent
-                cell={cell}
-                key={cell.id}
-                selected={
-                  cell.x === selectedCell?.x &&
-                  cell.y === selectedCell?.y &&
-                  !!selectedCell?.figure
-                }
-                click={click}
-              />
-            ))}
-          </React.Fragment>
-        ))}
-      </div>
+      <div className='board'>{renderBoard()}</div>
     </>
   )
 }

@@ -29,7 +29,7 @@ export class Figure {
     this.id = nanoid()
   }
 
-  public canMove(target: Cell): boolean {
+  public canMove(target: Cell, ignoreKingCheck: boolean = false): boolean {
     if (target.figure?.color === this.color) return false
     return true
   }
