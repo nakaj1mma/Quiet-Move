@@ -1,4 +1,4 @@
-import { playMoveSound } from '../assets/sounds'
+import { playCheckSound, playMoveSound } from '../assets/sounds'
 import { Board } from './Board'
 import { Colors } from './Colors'
 import { Figure } from './figures/Figure'
@@ -96,18 +96,32 @@ export class Cell {
     this.figure.cell = this
   }
 
-  public moveFigure(target: Cell) {
-    if (this.figure && this.figure?.canMove(target)) {
+  public moveFigure(target: Cell): boolean {
+    if (
+      this.figure &&
+      this.figure.canMove(target) &&
+      this.board.isMoveSafe(this, target)
+    ) {
+      const capturedFigure = target.figure
       this.figure.moveFigure(target)
-      if (target.figure) {
-        this.board.addLostFigure(target.figure)
+
+      if (capturedFigure) {
+        this.board.addLostFigure(capturedFigure)
       }
+
       target.setFigure(this.figure)
       this.figure = null
 
-      playMoveSound()
-
       this.board.updateKingInCheckState()
+      this.board.updateIsCheckMateForKing()
+
+      this.board.kingInCheck.black || this.board.kingInCheck.white
+        ? playCheckSound()
+        : playMoveSound()
+
+      return true
     }
+
+    return false
   }
 }

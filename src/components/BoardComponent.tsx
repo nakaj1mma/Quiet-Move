@@ -26,8 +26,10 @@ const BoardComponent = ({
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
-      selectedCell.moveFigure(cell)
-      swapPlayer()
+      const moved = selectedCell.moveFigure(cell)
+      if (moved) {
+        swapPlayer()
+      }
       setSelectedCell(null)
     } else if (selectedCell === cell) {
       setSelectedCell(null)

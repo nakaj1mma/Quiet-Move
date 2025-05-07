@@ -14,11 +14,19 @@ const CellComponent = ({ cell, selected, click }: CellProps) => {
         'cell',
         'animated',
         cell.color,
-        selected ? 'selected' : '',
+        selected &&
+        !cell.board.isCheckMateForKing.black &&
+        !cell.board.isCheckMateForKing.white
+          ? 'selected'
+          : '',
         cell.available && cell.figure ? 'target' : '',
         cell.figure?.name === FigureNames.KING &&
         cell.board.kingInCheck[cell.figure.color]
           ? 'check-bg'
+          : '',
+        cell.figure?.name === FigureNames.KING &&
+        cell.board.isCheckMateForKing[cell.figure.color]
+          ? 'mate-bg'
           : '',
       ].join(' ')}
       onClick={() => click(cell)}

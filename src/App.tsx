@@ -62,7 +62,11 @@ const App = () => {
             <Timer
               time={blackTime}
               setTime={setBlackTime}
-              isActive={moveCount >= 2 && currentPlayer?.color === Colors.BLACK}
+              isActive={
+                moveCount >= 2 &&
+                currentPlayer?.color === Colors.BLACK &&
+                !board.isCheckmate(Colors.BLACK || Colors.WHITE)
+              }
               moveCount={moveCount}
             />
           </div>
@@ -87,7 +91,11 @@ const App = () => {
             <Timer
               time={whiteTime}
               setTime={setWhiteTime}
-              isActive={moveCount >= 2 && currentPlayer?.color === Colors.WHITE}
+              isActive={
+                moveCount >= 2 &&
+                currentPlayer?.color === Colors.WHITE &&
+                !board.isCheckmate(Colors.BLACK || Colors.WHITE)
+              }
               moveCount={moveCount}
             />
           </div>

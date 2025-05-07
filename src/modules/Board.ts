@@ -14,9 +14,11 @@ export class Board {
   lostWhiteFigures: Figure[] = []
   lastMove: { figure: Figure; from: Cell; to: Cell } | null = null
   kingInCheck: { white: boolean; black: boolean }
+  isCheckMateForKing: { white: boolean; black: boolean }
 
   constructor() {
     this.kingInCheck = { white: false, black: false }
+    this.isCheckMateForKing = { white: false, black: false }
   }
 
   public initCells() {
@@ -38,6 +40,11 @@ export class Board {
     this.kingInCheck.black = this.isKingInCheck(Colors.BLACK)
   }
 
+  public updateIsCheckMateForKing() {
+    this.isCheckMateForKing.white = this.isCheckmate(Colors.WHITE)
+    this.isCheckMateForKing.black = this.isCheckmate(Colors.BLACK)
+  }
+
   public getCopyBoard(): Board {
     const newBoard = new Board()
     newBoard.cells = this.cells
@@ -50,14 +57,70 @@ export class Board {
     this.lastMove = { figure, from, to }
   }
 
-  public highlightCells(selectedCell: Cell | null) {
+  public isMoveSafe(from: Cell, to: Cell): boolean {
+    const figure = from.figure
+    if (!figure) return false
+
+    const originalToFigure = to.figure
+    const originalFromFigure = from.figure
+
+    to.figure = figure
+    from.figure = null
+
+    const originalX = figure.cell.x
+    const originalY = figure.cell.y
+    figure.cell = to
+
+    const isSafe = !this.isKingInCheck(figure.color)
+
+    figure.cell = this.getCell(originalX, originalY)
+    from.figure = originalFromFigure
+    to.figure = originalToFigure
+
+    return isSafe
+  }
+
+  public highlightCells(selectedCell: Cell | null): void {
     for (let i = 0; i < this.cells.length; i++) {
       const row = this.cells[i]
       for (let j = 0; j < row.length; j++) {
         const target = row[j]
-        target.available = !!selectedCell?.figure?.canMove(target)
+
+        if (
+          selectedCell &&
+          selectedCell.figure &&
+          selectedCell.figure.canMove(target)
+        ) {
+          target.available = this.isMoveSafe(selectedCell, target)
+        } else {
+          target.available = false
+        }
       }
     }
+  }
+
+  public isCheckmate(color: Colors): boolean {
+    if (!this.isKingInCheck(color)) return false
+
+    for (const row of this.cells) {
+      for (const cell of row) {
+        const figure = cell.figure
+        if (figure && figure.color === color) {
+          for (const targetRow of this.cells) {
+            for (const targetCell of targetRow) {
+              if (
+                figure.canMove(targetCell) &&
+                this.isMoveSafe(cell, targetCell)
+              ) {
+                return false
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return true
   }
 
   public isCellUnderAttack(cell: Cell, byColor: Colors): boolean {

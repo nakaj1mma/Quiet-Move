@@ -308,3 +308,7 @@ button {
   color: #ffff;
   border-bottom: #696969 1px solid;
 }
+
+.mate-bg {
+  background-color: #b22222 !important;
+}
