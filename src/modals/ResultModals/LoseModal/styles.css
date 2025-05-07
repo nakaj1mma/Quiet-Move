@@ -1,0 +1,115 @@
+/* LoseModal.css */
+.lose-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.lose-modal {
+  background-color: #0d1b2a;
+  border: 1px solid #1b263b;
+  border-radius: 14px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  animation: modalEnter 0.6s ease-out;
+}
+
+.lose-icon-placeholder {
+  width: 100%;
+  margin-bottom: 16px;
+  animation: shake 1s infinite alternate;
+}
+
+.lose-title {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #f44336;
+}
+
+.lose-message {
+  color: #bbb;
+  font-size: 16px;
+  margin-bottom: 28px;
+}
+
+.lose-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.lose-button {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.lose-button-rematch {
+  background-color: #37474f;
+  color: #fff;
+}
+
+.lose-button-rematch:hover {
+  background-color: #455a64;
+  transform: scale(1.05);
+}
+
+.lose-button-new {
+  background-color: #1b263b;
+  color: #ccc;
+}
+
+.lose-button-new:hover {
+  background-color: #26394d;
+  transform: scale(1.05);
+}
+
+.lose-falling {
+  position: fixed;
+  top: -50px;
+  font-size: 24px;
+  color: #263238;
+  animation: fall linear forwards;
+  z-index: 10;
+}
+
+@keyframes modalEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(-3deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(3deg) scale(1.05);
+  }
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0;
+  }
+}

@@ -11,6 +11,8 @@ import PanelComponent from './components/PanelComponent'
 // Test imports for images
 import testImageOne from './assets/images/test-images/billy-image.jpg'
 import testImageTwo from './assets/images/test-images/van-darkholme.jpg'
+import WinModal from './modals/ResultModals/WinModal/WinModal'
+import LoseModal from './modals/ResultModals/LoseModal/LoseModal'
 
 const App = () => {
   const [board, setBoard] = useState<Board>(new Board())
