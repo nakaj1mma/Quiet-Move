@@ -35,6 +35,19 @@ export class Board {
     }
   }
 
+  public invertCells() {
+    this.cells.reverse()
+
+    this.cells.forEach((row) => row.reverse())
+
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        this.cells[y][x].x = x
+        this.cells[y][x].y = y
+      }
+    }
+  }
+
   public updateKingInCheckState() {
     this.kingInCheck.white = this.isKingInCheck(Colors.WHITE)
     this.kingInCheck.black = this.isKingInCheck(Colors.BLACK)

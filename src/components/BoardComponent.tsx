@@ -57,13 +57,14 @@ const BoardComponent = ({
   }
 
   const renderBoard = () => {
-    const rows =
-      currentPlayer.color === Colors.BLACK
-        ? [...board.cells].reverse()
-        : board.cells
+    let rows = board.cells
 
-    return rows.map((row, index) => (
-      <React.Fragment key={index}>
+    if (currentPlayer.color === Colors.BLACK) {
+      rows = [...rows].reverse().map((row) => [...row].reverse())
+    }
+
+    return rows.map((row, rowIndex) => (
+      <React.Fragment key={rowIndex}>
         {row.map((cell) => (
           <CellComponent
             cell={cell}

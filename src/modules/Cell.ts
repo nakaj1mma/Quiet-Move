@@ -5,8 +5,8 @@ import { Figure } from './figures/Figure'
 import { nanoid } from 'nanoid'
 
 export class Cell {
-  readonly x: number
-  readonly y: number
+  x: number
+  y: number
   readonly color: Colors
   figure: Figure | null
   board: Board
